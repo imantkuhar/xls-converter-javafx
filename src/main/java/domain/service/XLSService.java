@@ -15,12 +15,12 @@ public class XLSService {
     private ColumnMapper columnMapper = new ColumnMapper();
 
     public List<MappingEntity> getMappingEntities(File file) {
-        XLSParser parser = new XLSParser(file);
-        return columnMapper.convertToMappingEntities(parser.getColumnNames());
+        XLSParser xlsParser = new XLSParser(file);
+        return columnMapper.convertToMappingEntities(xlsParser.getColumnNames());
     }
 
     public List<ColumnEntity> getColumnEntities(File file) {
-        XLSParser parser = new XLSParser(file);
-        return columnMapper.convertToColumnEntities(parser.getColumnNames());
+        XLSParser xlsParser = new XLSParser(file);
+        return columnMapper.convertToColumnEntities(xlsParser.getColumnNames());
     }
 }
