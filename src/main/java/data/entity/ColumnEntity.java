@@ -6,14 +6,13 @@ package data.entity;
 public class ColumnEntity {
 
     private int id;
-    private String columnName;
+    private String dbColumnName;
 
     public ColumnEntity() {
     }
 
-    public ColumnEntity(int id, String columnName) {
-        this.id = id;
-        this.columnName = columnName;
+    public ColumnEntity(String dbColumnName) {
+        this.dbColumnName = dbColumnName;
     }
 
     public int getId() {
@@ -24,11 +23,11 @@ public class ColumnEntity {
         this.id = id;
     }
 
-    public String getColumnName() {
-        return columnName;
+    public String getDbColumnName() {
+        return dbColumnName;
     }
 
-    public void setColumnName(String columnName) {
-        this.columnName = columnName;
+    public void setDbColumnName(String dbColumnName) {
+        this.dbColumnName = dbColumnName;
     }
 }
