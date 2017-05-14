@@ -23,7 +23,7 @@
                     <columns>
                         <TableColumn fx:id="tcFileColumnName" prefWidth="360.0"
                                      text="Xls-file Column"/>
-                        <TableColumn fx:id="tcBDColumnName"  prefWidth="360.0" text="DB Column"/>
+                        <TableColumn fx:id="tcBDColumnName" prefWidth="360.0" text="DB Column"/>
                     </columns>
                 </TableView>
                 <Button fx:id="btSaveToDB" layoutX="441.0" layoutY="310.0" mnemonicParsing="false" prefHeight="40.0"

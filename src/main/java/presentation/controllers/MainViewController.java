@@ -1,8 +1,9 @@
 package presentation.controllers;
 
+import data.entity.ListMappingEntity;
 import data.entity.MappingEntity;
+import domain.service.MappingJsonService;
 import domain.service.XLSService;
-import domain.utils.Validator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -14,6 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 
@@ -23,7 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * Created by Imant on 17.11.16.
+ * Created by Imant on 14.05.17.
  */
 public class MainViewController implements Initializable {
 
@@ -58,18 +60,7 @@ public class MainViewController implements Initializable {
             chosenFile = fileChooser.showOpenDialog(node.getScene().getWindow());
             if (chosenFile != null) {
                 tfFilePath.textProperty().set(chosenFile.getAbsolutePath());
-
-                List<MappingEntity> list = xlsService.getMappingEntities(chosenFile);
-                mappingEntitiesList = FXCollections.observableArrayList(list);
-                tcFileColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("fileColumnName"));
-                tcBDColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("dbColumnName"));
-                tcBDColumnName.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent event) {
-                        System.out.println();
-                    }
-                });
-                tvColumnsTable.setItems(mappingEntitiesList);
+                fillUpTheTable();
             }
         });
     }
@@ -81,6 +72,43 @@ public class MainViewController implements Initializable {
 
     private void setButtonSaveToJsonListener() {
         btSaveToJson.setOnAction(event -> {
+            if (!(mappingEntitiesList == null)) {
+                Node node = (Node) event.getSource();
+                FileChooser fileChooser = new FileChooser();
+                File file = fileChooser.showSaveDialog(node.getScene().getWindow());
+                if (file != null) {
+                    saveEntitiesListToJson(file.getPath());
+                }
+            }
         });
     }
+
+    private void saveEntitiesListToJson(String filePath) {
+        ListMappingEntity listMappingEntity = new ListMappingEntity();
+        listMappingEntity.setMappedColumnsList(mappingEntitiesList);
+        listMappingEntity.setTableName(tfTableName.getText());
+
+        MappingJsonService mappingJsonService = new MappingJsonService();
+        mappingJsonService.convertToJson(listMappingEntity, filePath);
+    }
+
+    private void fillUpTheTable() {
+        List<MappingEntity> list = xlsService.getMappingEntities(chosenFile);
+        mappingEntitiesList = FXCollections.observableArrayList(list);
+        tcFileColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("fileColumnName"));
+        tcBDColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("dbColumnName"));
+        tcBDColumnName.setCellFactory(TextFieldTableCell.forTableColumn());
+        tcBDColumnName.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<MappingEntity, String>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<MappingEntity, String> t) {
+                        ((MappingEntity) t.getTableView().getItems().get(t.getTablePosition().getRow())
+                        ).setFileColumnName(t.getNewValue());
+                    }
+                }
+        );
+        tvColumnsTable.setEditable(true);
+        tvColumnsTable.setItems(mappingEntitiesList);
+    }
 }
+

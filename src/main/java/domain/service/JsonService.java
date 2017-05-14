@@ -9,10 +9,10 @@ import java.io.PrintWriter;
 public class JsonService {
     protected static final String JSON_END = ".json";
 
-    public void saveJson(String json, String filePath, String fileName) {
+    public void saveToJson(String jsonString, String filePath) {
         try {
-            PrintWriter writer = new PrintWriter(filePath + fileName + JSON_END);
-            writer.write(json);
+            PrintWriter writer = new PrintWriter(filePath + JSON_END);
+            writer.write(jsonString);
             writer.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

@@ -8,6 +8,6 @@ import data.dao.ColumnEntityDao;
 public class Main {
     public static void main(String[] args) {
         ColumnEntityDao columnEntityDao = new ColumnEntityDao();
-        columnEntityDao.saveToDB("PIZDEZ", null);
+        columnEntityDao.saveToDB("NEWTABLE", null);
     }
 }
