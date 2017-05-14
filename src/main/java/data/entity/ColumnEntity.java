@@ -5,16 +5,10 @@ import javax.persistence.*;
 /**
  * Created by Imant on 13.05.17.
  */
-@Table
-@Entity(name = "column_names")
 public class ColumnEntity {
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "column_name")
     private String dbColumnName;
 
     public ColumnEntity() {

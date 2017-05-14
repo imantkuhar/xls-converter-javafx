@@ -1,7 +1,10 @@
 package presentation.controllers;
 
+import data.dao.ColumnEntityDao;
+import data.entity.ColumnEntity;
 import data.entity.ListMappingEntity;
 import data.entity.MappingEntity;
+import domain.mapper.ColumnMapper;
 import domain.service.MappingJsonService;
 import domain.service.XLSService;
 import javafx.collections.FXCollections;
@@ -40,7 +43,9 @@ public class MainViewController implements Initializable {
     @FXML
     private TableColumn tcFileColumnName, tcBDColumnName;
     private ObservableList<MappingEntity> mappingEntitiesList;
+    private ColumnMapper columnMapper = new ColumnMapper();
     private XLSService xlsService = new XLSService();
+    private ColumnEntityDao columnEntityDao;
 
     File chosenFile;
 
@@ -67,7 +72,14 @@ public class MainViewController implements Initializable {
 
     private void setButtonSaveToDBListener() {
         btSaveToDB.setOnAction(event -> {
-        });
+                    if (!(mappingEntitiesList == null) && !tfTableName.getText().isEmpty()) {
+                        columnEntityDao = new ColumnEntityDao(tfTableName.getText());
+                        columnEntityDao.createTable();
+                        List<ColumnEntity> columnEntities = columnMapper.convertFromMappingEntitiesToColumnEntities(mappingEntitiesList);
+                        columnEntityDao.saveColumnEntitiesListToDB(columnEntities);
+                    }
+                }
+        );
     }
 
     private void setButtonSaveToJsonListener() {

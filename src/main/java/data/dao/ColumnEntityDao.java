@@ -16,42 +16,36 @@ import java.util.List;
  */
 public class ColumnEntityDao {
 
-//    private EntityManagerFactory managerFactory = EntityFactory.getEntityManagerFactory();
-//    private EntityManager entityManager = managerFactory.createEntityManager();
+    private String tableName;
+    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-    public void save(ColumnEntity columnEntity) {
-//        EntityManager entityManager = managerFactory.createEntityManager();
-//        try {
-//            entityManager.getTransaction().begin();
-//            entityManager.merge(columnEntity);
-//            entityManager.getTransaction().commit();
-//
-//        } catch (Exception e) {
-//            entityManager.getTransaction().rollback();
-//        } finally {
-//            entityManager.close();
-//        }
+    public ColumnEntityDao(String tableName) {
+        this.tableName = tableName;
     }
 
-    public void save(List<ColumnEntity> columnEntities) {
+    public void createTable() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        String sqlQuery = "CREATE TABLE IF NOT EXISTS " + tableName + " (id INT AUTO_INCREMENT PRIMARY KEY, column_name VARCHAR(75))";
+        Query query = session.createNativeQuery(sqlQuery);
+        query.executeUpdate();
+        transaction.commit();
+    }
+
+    public void saveColumnEntitiesListToDB(List<ColumnEntity> columnEntities) {
         for (ColumnEntity columnEntity : columnEntities) {
-            save(columnEntity);
+            saveColumnEntityToDB(columnEntity);
         }
     }
 
-    public void saveToDB(String tableName, List<ColumnEntity> columnEntities) {
-
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    public void saveColumnEntityToDB(ColumnEntity columnEntity) {
         Session session = sessionFactory.openSession();
-        String name = "NEWTABLE";
-
         Transaction transaction = session.beginTransaction();
 
-//        String sqlQuery = "CREATE TABLE " + tableName.toUpperCase() + "(ID INT PRIMARY KEY, NAME VARCHAR(255))";
-        String sqlQuery = "CREATE TABLE PERSON (id int primary key, name varchar(255))";
-
-        String sqlQuery1 = "CREATE TABLE " + name;
-        Query query = session.createQuery(sqlQuery);
+        String sqlPrepQuery = "INSERT INTO " + tableName + " (COLUMN_NAME) VALUES (?1)";
+        Query query = session.createNativeQuery(sqlPrepQuery);
+        query.setParameter(1, columnEntity.getDbColumnName());
         query.executeUpdate();
         transaction.commit();
     }

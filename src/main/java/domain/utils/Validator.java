@@ -10,6 +10,5 @@ public class Validator {
     public static boolean validateTableName(String tableName) {
         return tableName.matches(COLUMN_NAME_PATTERN);
     }
-
     
 }
