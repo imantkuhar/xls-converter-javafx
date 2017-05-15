@@ -1,7 +1,5 @@
 package data.entity;
 
-import javax.persistence.*;
-
 /**
  * Created by Imant on 13.05.17.
  */

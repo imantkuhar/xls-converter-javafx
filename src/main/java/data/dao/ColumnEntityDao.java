@@ -7,8 +7,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 /**
@@ -17,7 +15,7 @@ import java.util.List;
 public class ColumnEntityDao {
 
     private String tableName;
-    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     public ColumnEntityDao(String tableName) {
         this.tableName = tableName;
@@ -33,13 +31,13 @@ public class ColumnEntityDao {
         transaction.commit();
     }
 
-    public void saveColumnEntitiesListToDB(List<ColumnEntity> columnEntities) {
+    public void save(List<ColumnEntity> columnEntities) {
         for (ColumnEntity columnEntity : columnEntities) {
-            saveColumnEntityToDB(columnEntity);
+            save(columnEntity);
         }
     }
 
-    public void saveColumnEntityToDB(ColumnEntity columnEntity) {
+    public void save(ColumnEntity columnEntity) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 

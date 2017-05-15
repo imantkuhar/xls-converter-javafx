@@ -5,33 +5,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0"
-      prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="presentation.controllers.MainViewController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.view.MainView">
     <children>
         <Pane fx:id="chooseFilePane" layoutX="15.0" layoutY="15.0" prefHeight="70.0" prefWidth="720.0">
             <children>
-                <TextField fx:id="tfFilePath" editable="false" layoutY="15.0" prefHeight="40.0" prefWidth="615.0"
-                           promptText="Your filePath"/>
-                <Button fx:id="btChooseFile" layoutX="630.0" layoutY="15.0" mnemonicParsing="false" prefHeight="40.0"
-                        prefWidth="90.0" text="Choose file"/>
+                <TextField fx:id="tfFilePath" editable="false" layoutY="15.0" prefHeight="40.0" prefWidth="615.0" promptText="Your filePath" />
+                <Button fx:id="btChooseFile" layoutX="630.0" layoutY="15.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="90.0" text="Choose file" />
             </children>
         </Pane>
         <Pane fx:id="tablePane" layoutX="15.0" layoutY="85.0" prefHeight="350.0" prefWidth="720.0">
             <children>
                 <TableView fx:id="tvColumnsTable" prefHeight="295.0" prefWidth="720.0">
                     <columns>
-                        <TableColumn fx:id="tcFileColumnName" prefWidth="360.0"
-                                     text="Xls-file Column"/>
-                        <TableColumn fx:id="tcBDColumnName" prefWidth="360.0" text="DB Column"/>
+                        <TableColumn fx:id="tcFileColumnName" prefWidth="360.0" text="Xls-file Column" />
+                        <TableColumn fx:id="tcBDColumnName" prefWidth="360.0" text="DB Column" />
                     </columns>
                 </TableView>
-                <Button fx:id="btSaveToDB" layoutX="441.0" layoutY="310.0" mnemonicParsing="false" prefHeight="40.0"
-                        prefWidth="140.0" text="Save to Database"/>
-                <Button fx:id="btSaveToJson" layoutX="595.0" layoutY="310.0" mnemonicParsing="false" prefHeight="40.0"
-                        prefWidth="125.0" text="Save to Json"/>
-                <TextField fx:id="tfTableName" layoutX="-1.0" layoutY="310.0" prefHeight="40.0" prefWidth="428.0"
-                           promptText="Table name"/>
+                <Button fx:id="btSaveToDB" layoutX="445.0" layoutY="310.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="135.0" text="Save to Database" />
+                <Button fx:id="btSaveToJson" layoutX="595.0" layoutY="310.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="125.0" text="Save to Json" />
+                <TextField fx:id="tfTableName" layoutY="310.0" prefHeight="40.0" prefWidth="430.0" promptText="Table name" />
             </children>
         </Pane>
     </children>
