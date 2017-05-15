@@ -6,10 +6,17 @@ import data.entity.ListMappingEntity;
 import data.entity.MappingEntity;
 import domain.mapper.ColumnMapper;
 import domain.service.MappingJsonService;
+import domain.service.XLSService;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -56,5 +63,22 @@ public class MainPresenter {
         columnEntityDao.createTable();
         List<ColumnEntity> columnEntities = columnMapper.convertFromMappingEntitiesToColumnEntities(mappingEntitiesList);
         columnEntityDao.saveColumnEntitiesListToDB(columnEntities);
+    }
+
+    public void fillUpTheTable(ObservableList<MappingEntity> mappingEntitiesList, TableColumn tcFileColumnName, TableColumn tcBDColumnName, TableView<MappingEntity> tvColumnsTable) {
+        tcFileColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("fileColumnName"));
+        tcBDColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("dbColumnName"));
+        tcBDColumnName.setCellFactory(TextFieldTableCell.forTableColumn());
+        tcBDColumnName.setOnEditCommit(
+                new EventHandler<TableColumn.CellEditEvent<MappingEntity, String>>() {
+                    @Override
+                    public void handle(TableColumn.CellEditEvent<MappingEntity, String> t) {
+                        ((MappingEntity) t.getTableView().getItems().get(t.getTablePosition().getRow())
+                        ).setDbColumnName(t.getNewValue());
+                    }
+                }
+        );
+        tvColumnsTable.setEditable(true);
+        tvColumnsTable.setItems(mappingEntitiesList);
     }
 }

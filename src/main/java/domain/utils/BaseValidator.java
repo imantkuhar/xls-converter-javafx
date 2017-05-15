@@ -5,6 +5,6 @@ package domain.utils;
  */
 public class BaseValidator {
 
-    protected final String COLUMN_NAME_PATTERN = "^[a-zA-Z]+$";
+    protected static final String COLUMN_NAME_PATTERN = "^[a-zA-Z]+$";
 
 }

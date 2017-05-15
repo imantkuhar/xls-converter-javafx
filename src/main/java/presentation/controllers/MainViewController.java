@@ -37,11 +37,9 @@ public class MainViewController implements Initializable {
     @FXML
     private TableColumn tcFileColumnName, tcBDColumnName;
     private ObservableList<MappingEntity> mappingEntitiesList = FXCollections.observableArrayList();
-    ;
     private ColumnMapper columnMapper = new ColumnMapper();
-    private XLSService xlsService = new XLSService();
     private ContextMenu passValidator = new ContextMenu();
-    private ColumnEntityDao columnEntityDao;
+    private XLSService xlsService = new XLSService();
     private MainPresenter presenter;
 
     File chosenFile;
@@ -57,31 +55,13 @@ public class MainViewController implements Initializable {
         btChooseFile.setOnAction(event -> {
             chosenFile = presenter.getChosenFile(event);
             if (chosenFile != null) {
-                tfFilePath.textProperty().set(chosenFile.getAbsolutePath());
-                fillUpTheTable();
+                tfFilePath.setText(chosenFile.getAbsolutePath());
+                List<MappingEntity> list = xlsService.getMappingEntities(chosenFile);
+                mappingEntitiesList = FXCollections.observableArrayList(list);
+                presenter.fillUpTheTable(mappingEntitiesList, tcFileColumnName, tcBDColumnName, tvColumnsTable);
             }
         });
     }
-
-    private void fillUpTheTable() {
-        List<MappingEntity> list = xlsService.getMappingEntities(chosenFile);
-        mappingEntitiesList = FXCollections.observableArrayList(list);
-        tcFileColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("fileColumnName"));
-        tcBDColumnName.setCellValueFactory(new PropertyValueFactory<MappingEntity, String>("dbColumnName"));
-        tcBDColumnName.setCellFactory(TextFieldTableCell.forTableColumn());
-        tcBDColumnName.setOnEditCommit(
-                new EventHandler<TableColumn.CellEditEvent<MappingEntity, String>>() {
-                    @Override
-                    public void handle(TableColumn.CellEditEvent<MappingEntity, String> t) {
-                        ((MappingEntity) t.getTableView().getItems().get(t.getTablePosition().getRow())
-                        ).setFileColumnName(t.getNewValue());
-                    }
-                }
-        );
-        tvColumnsTable.setEditable(true);
-        tvColumnsTable.setItems(mappingEntitiesList);
-    }
-
 
     private void setButtonSaveToJsonListener() {
         btSaveToJson.setOnAction(event -> {
@@ -101,6 +81,7 @@ public class MainViewController implements Initializable {
                             && Validator.validateTable(mappingEntitiesList, btSaveToJson, passValidator) &&
                             Validator.validateTableName(tfTableName, btSaveToDB, passValidator)) {
                         presenter.saveEntitiesListToDB(tfTableName, columnMapper, mappingEntitiesList);
+                        tfTableName.clear();
                     }
                 }
         );

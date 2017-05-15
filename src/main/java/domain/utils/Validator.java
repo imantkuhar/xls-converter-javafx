@@ -34,7 +34,7 @@ public class Validator extends BaseValidator {
     }
 
     public static boolean validateTableName(TextField tfTableName, Button button, ContextMenu passValidator) {
-        if (tfTableName.getText().isEmpty() && tfTableName.getText().matches(COLUMN_NAME_PATTERN)) {
+        if (tfTableName.getText().isEmpty() || !tfTableName.getText().matches(COLUMN_NAME_PATTERN)) {
             passValidator.getItems().clear();
             passValidator.getItems().add(new MenuItem("Please enter table name"));
             passValidator.show(button, Side.TOP, 0, 0);

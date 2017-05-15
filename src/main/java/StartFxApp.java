@@ -1,5 +1,3 @@
-package presentation;
-
 import domain.utils.PropertiesHolder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -33,7 +33,7 @@ public class ColumnMapper {
     public List<ColumnEntity> convertFromMappingEntitiesToColumnEntities(List<MappingEntity> mappingEntities) {
         List<ColumnEntity> columnEntities = new ArrayList<ColumnEntity>();
         for (MappingEntity entity : mappingEntities) {
-            ColumnEntity columnEntity = new ColumnEntity(entity.getFileColumnName());
+            ColumnEntity columnEntity = new ColumnEntity(entity.getDbColumnName());
             columnEntities.add(columnEntity);
         }
         return columnEntities;
