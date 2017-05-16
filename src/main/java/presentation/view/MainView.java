@@ -56,14 +56,15 @@ public class MainView implements Initializable {
     private void setButtonSaveToJsonListener() {
         btSaveToJson.setOnAction(event -> {
             String filePath = tfFilePath.getText();
-            if (TableDataValidator.validateSavingInJson(filePath, mappingEntitiesList)) {
+            String tableName = tfTableName.getText();
+            if (TableDataValidator.validateSaving(filePath, tableName, mappingEntitiesList)) {
                 File chosenFile = FileChooserHelper.getFileToSave(event);
                 if (chosenFile != null) {
                     presenter.saveToJson(mappingEntitiesList, tfTableName.getText(), chosenFile.getPath());
-                    DialogUtil.showInfoDialog(DialogMessage.SUCCESS_JSON_SAVE);
+                    showInfoDialog(DialogMessage.SUCCESS_JSON_SAVE);
                 }
             } else {
-                DialogUtil.showInfoDialog(DialogMessage.ERROR_INPUT);
+                showInfoDialog(DialogMessage.ERROR_INPUT);
             }
         });
     }
@@ -72,12 +73,12 @@ public class MainView implements Initializable {
         btSaveToDB.setOnAction(event -> {
                     String filePath = tfFilePath.getText();
                     String tableName = tfTableName.getText();
-                    if (TableDataValidator.validateSavingInDB(filePath, tableName, mappingEntitiesList)) {
+                    if (TableDataValidator.validateSaving(filePath, tableName, mappingEntitiesList)) {
                         presenter.saveToDB(tableName, mappingEntitiesList);
                         tfTableName.clear();
-                        DialogUtil.showInfoDialog(DialogMessage.SUCCESS_DB_SAVE);
+                        showInfoDialog(DialogMessage.SUCCESS_DB_SAVE);
                     } else {
-                        DialogUtil.showInfoDialog(DialogMessage.ERROR_INPUT);
+                        showInfoDialog(DialogMessage.ERROR_INPUT);
                     }
                 }
         );
@@ -101,6 +102,8 @@ public class MainView implements Initializable {
         tvColumnsTable.setItems(mappingEntitiesList);
     }
 
-
+    private void showInfoDialog(DialogMessage dialogMessage) {
+        DialogUtil.showInfoDialog(dialogMessage);
+    }
 }
 

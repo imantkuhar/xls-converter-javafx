@@ -50,5 +50,4 @@ public class MainPresenter {
         columnEntityDao.save(columnEntities);
 
     }
-
 }
