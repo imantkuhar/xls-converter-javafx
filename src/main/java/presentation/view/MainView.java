@@ -102,8 +102,8 @@ public class MainView implements Initializable {
         tvColumnsTable.setItems(mappingEntitiesList);
     }
 
-    private void showInfoDialog(DialogMessage dialogMessage) {
-        DialogUtil.showInfoDialog(dialogMessage);
+    private void showInfoDialog(DialogMessage message) {
+        DialogUtil.showInfoDialog(message);
     }
 }
 

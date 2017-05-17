@@ -48,6 +48,5 @@ public class MainPresenter {
         columnEntityDao = new ColumnEntityDao(tableName);
         columnEntityDao.createTable();
         columnEntityDao.save(columnEntities);
-
     }
 }
